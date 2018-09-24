@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>[#OPA-152] More comprehensive pre-checks needed</title>
+    <meta http-equiv="Content-Type" Content="application/vnd.ms-word; charset=UTF-8">
+        <style type="text/css">
+
+.tableBorder, .grid
+{
+    background-color: #fff;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableBorder td, .grid td
+{
+    vertical-align: top;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+.noPadding
+{
+    padding: 0 !important;
+}
+
+h3 .subText
+{
+    font-size: 60%;
+    font-weight: normal;
+}
+
+.tabLabel
+{
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-bottom:none;
+    padding: 2px;
+    display: inline;
+}
+
+td.blank
+{
+    padding: 0;
+    margin: 0;
+}
+
+.blank td
+{
+    border: none;
+}
+
+#descriptionArea
+{
+    margin: 0;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+
+hr
+{
+    border-top:1px solid #aaa;
+}
+
+hr.fullcontent
+{
+  height: 15px;
+  padding: 10px 0;
+  background: #fff url('https://mountdiablo.jira.com/images/icons/hr.gif') no-repeat scroll center;
+}
+
+</style>
+
+</head>
+<body>
+
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+                            <h3 class="formtitle">
+                        [OPA-152]&nbsp;<a href="https://mountdiablo.jira.com/browse/OPA-152">More comprehensive pre-checks needed</a>
+            <span class="subText">
+               Created: 04/Jul/18                   &nbsp;Updated: 04/Jul/18
+
+                                            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Status:</b></td>
+        <td width="80%">Open</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>Project:</b></td>
+        <td width="80%"><a href="https://mountdiablo.jira.com/secure/BrowseProject.jspa?id=25249">OS Patch Automation</a></td>
+    </tr>
+
+        <tr>
+            <td><b>Component/s:</b></td>
+            <td>
+                            None
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Affects Version/s:</b></td>
+            <td>
+                            None
+                </td>
+    </tr>
+    
+
+        <tr>
+            <td><b>Fix Version/s:</b></td>
+            <td>
+                            None
+                </td>
+    </tr>
+    
+    </table>
+
+<br />
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>Type:</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top"  width="30%" >
+            Improvement
+        </td>
+
+                    <td bgcolor="#f0f0f0">
+                <b>Priority:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                P1: Critical
+            </td>
+            </tr>
+    <tr>
+                        <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>Reporter:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top"  width="30%" >
+                                            <a class="user-hover" rel="natalia.usmanova" id="word_reporter_natalia.usmanova" href="https://mountdiablo.jira.com/secure/ViewProfile.jspa?name=natalia.usmanova">Natalia Usmanova</a>
+
+                            </td>
+        
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Assignee:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap  width="30%" >
+                                            <a class="user-hover" rel="subrata.nandi" id="word_assignee_subrata.nandi" href="https://mountdiablo.jira.com/secure/ViewProfile.jspa?name=subrata.nandi">Subrata Nandi</a>
+
+                            </td>
+            </tr>
+    	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>Resolution:</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+            				Unresolved
+                    </td>
+                    <td bgcolor="#f0f0f0" width="20%">
+                <b>Votes:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                0
+            </td>
+        
+    </tr>
+    
+        <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>Labels:</b>
+        </td>
+        <td id="labels-362061-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+                            UAT                    </td>
+    </tr>
+    
+    	<tr>
+        		<td bgcolor="#f0f0f0" width="20%"><b>Remaining Estimate:</b></td>
+        <td bgcolor="#ffffff" valign="top" nowrap width="80%" colspan="3">
+                            Not Specified
+            		</td>
+    </tr>
+    <tr>
+                <td bgcolor="#f0f0f0" width="20%"><b>Time Spent:</b></td>
+		<td bgcolor="#ffffff" valign="top" nowrap width="80%" colspan="3">
+                            Not Specified
+            		</td>
+	</tr>
+    <tr>
+                <td bgcolor="#f0f0f0" width="20%"><b>Original Estimate:</b></td>
+		<td bgcolor="#ffffff" valign="top" nowrap width="80%" colspan="3">
+                            Not Specified
+            		</td>
+    </tr>
+    
+    </table>
+
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            
+
+                <tr>
+            <td bgcolor="#f0f0f0" width=20% valign=top>
+                <b>Attachments:</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top">
+                                    <img src="https://mountdiablo.jira.com/images/icons/attach/text.gif" height="16" width="16" border="0" alt="Text File">
+                    Error_Pre_Change_Checks.txt &nbsp;&nbsp;&nbsp;
+                                    <img src="https://mountdiablo.jira.com/images/icons/attach/text.gif" height="16" width="16" border="0" alt="Text File">
+                    Pre_Change_Pre-Checks_Output.txt &nbsp;&nbsp;&nbsp;
+                                    <img src="https://mountdiablo.jira.com/images/icons/attach/text.gif" height="16" width="16" border="0" alt="Text File">
+                    Precheck_Script.sh.txt &nbsp;&nbsp;&nbsp;
+                                    <img src="https://mountdiablo.jira.com/images/icons/attach/text.gif" height="16" width="16" border="0" alt="Text File">
+                    Windows precheck script_beta one.txt &nbsp;&nbsp;&nbsp;
+                            </td>
+        </tr>
+        
+    
+
+
+
+</table>
+
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>Description</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            <p>In addition to the current prechecks the following checks must be performed for both Windows and RHEL:</p>
+<ol>
+	<li>IP details</li>
+	<li>Automatic services details</li>
+	<li>SA Agent availability (connection tests)<br/>
+<b>NOTE</b> Currently used pre-check scripts, and sample outputs of these scripts for RHEL are provided by the Change Team and are attached here.</li>
+</ol>
+
+
+<p>The results of these pre-checks for all the servers must be added to a single text file, and this file must be attached to the Change ticket. Pre-checks errors (if any) would also be added to a single file for all servers and attached to the CHG ticket. </p>
+            <br/>
+        </td>
+    </tr>
+    </table>
+
+Generated at Thu Aug 23 08:59:00 UTC 2018 by Subrata Nandi using Jira 1001.0.0-SNAPSHOT#100090-sha1:68bb6c0456237c5eef350d7d742b417f9a1d9614.
+
+</body>
+</html>

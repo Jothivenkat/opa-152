@@ -1,0 +1,320 @@
+Wscript.Echo ' '
+Wscript.Echo ' Windows Standard Precheck Scripts '
+Wscript.Echo ' '
+Wscript.Echo ' '
+Wscript.Echo "'****************Current Date is : *********************'"
+VariableDate = FormatDateTime(Now) 
+Wscript.Echo VariableDate
+Wscript.Echo "'********************************************************'"
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+Wscript.Echo "'****************Hostname is : *********************'"
+Set wshNetwork = CreateObject( "WScript.Network" )
+strComputerName = wshNetwork.ComputerName
+Wscript.Echo strComputerName
+Wscript.Echo "'********************************************************'"
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+'echo '*****************Powershell version****************************'
+'$psversiontable 
+
+'echo '*****************Execution Policy****************************'
+'Get-ExecutionPolicy   
+
+Wscript.Echo "'***************Last Reboot********************************'"
+Set objWMIService = GetObject("winmgmts:\\" _
+    & strComputerName & "\root\cimv2")
+Set colOperatingSystems = objWMIService.ExecQuery _
+    ("Select * from Win32_OperatingSystem")
+ 
+For Each objOS in colOperatingSystems
+    dtmBootup = objOS.LastBootUpTime
+    Exit For
+
+Next
+
+WMIDateStringToDate = CDate(Mid(dtmBootup, 5, 2) & "/" & _
+        Mid(dtmBootup, 7, 2) & "/" & Left(dtmBootup, 4) )
+WMIDateStringToTime = CDate(Mid(dtmBootup, 9, 2) & ":" & _
+        Mid(dtmBootup, 11, 2) & ":" & Mid(dtmBootup,13, 2))
+		
+Wscript.Echo "csname : " & strComputerName
+Wscript.Echo "LastBootUpTime : " & WMIDateStringToDate & " " & WMIDateStringToTime
+
+WScript.Echo "'********************************************************'"
+
+WScript.Echo ' '
+WScript.Echo ' '
+
+
+
+ WScript.Echo "'****************ALL IP Address are : *********************'"
+
+ WScript.Echo "System IP Adress are as follows:-"
+ strMsg = ""
+ Set objWMIService = GetObject("winmgmts:\\" & strComputerName & "\root\cimv2")
+Set IPConfigSet = objWMIService.ExecQuery _
+("Select IPAddress from Win32_NetworkAdapterConfiguration WHERE IPEnabled = 'True'")
+For Each IPConfig in IPConfigSet
+	If Not IsNull(IPConfig.IPAddress) Then
+		For i = LBound(IPConfig.IPAddress) to UBound(IPConfig.IPAddress)
+			If Not Instr(IPConfig.IPAddress(i), ":") > 0 Then
+			strMsg = strMsg & IPConfig.IPAddress(i) & vbcrlf
+			End If
+		Next 
+	End If
+Next
+ 
+Wscript.Echo strMsg
+ 
+
+Wscript.Echo "'**********************************************************'"
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+Wscript.Echo "'****************Sungard IP Address are : *********************'"
+Set objWMIService = GetObject("winmgmts:\\" & strComputerName & "\root\cimv2")
+
+Set colItems = objWMIService.ExecQuery ("Select * From Win32_NetworkAdapterConfiguration Where IPEnabled = True")
+
+For Each objItem in colItems
+
+    arrIPAddresses = objItem.IPAddress
+	
+
+    For Each strAddress in arrIPAddresses
+
+        
+
+            strMACAddress = objItem.MacAddress
+			Set colItems1 = objWMIService.ExecQuery ("Select * From Win32_NetworkAdapter Where MACAddress = '" & strMACAddress & "'")
+
+			For Each objItem1 in colItems1
+
+				If Not IsNull(objItem1.NetConnectionID) And DescriptionNet <> objItem1.NetConnectionID Then
+					DescriptionNet = objItem1.NetConnectionID
+					Wscript.Echo objItem1.NetConnectionID,arrIPAddresses(0)
+
+				End If
+
+			Next
+
+        
+
+    Next
+
+Next
+
+
+Wscript.Echo "'**********************************************************'"
+
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+
+Wscript.Echo "'****************Last system Patch Date is:*********************'"
+
+Set objSession = CreateObject("Microsoft.Update.Session")
+
+Set objSearcher = objSession.CreateUpdateSearcher
+
+Set colHistory = objSearcher.QueryHistory(0, 5)
+
+
+For Each objEntry in colHistory
+
+    Wscript.Echo "Title: " & objEntry.Title
+
+    Wscript.Echo "Update application date: " & objEntry.Date
+
+Next
+
+
+
+Wscript.Echo "'***********************************************************'"
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+
+Wscript.Echo "'****************C Disk Space *********************'"
+Wscript.Echo "Disk space in GB is as follows:-"
+Set colListDisc = objWMIService.ExecQuery _ 
+      ("Select * From Win32_LogicalDisk") 
+	
+  for Each LogicalDisc in colListDisc 
+	if IsNumeric(LogicalDisc.Size) = False Then
+		If LogicalDisc.DeviceID = "C:" Then
+			Wscript.Echo "DeviceId: " & LogicalDisc.DeviceID   & chr(9) & ".:. MediaType: " & LogicalDisc.MediaType & chr(9) & ".:. Size: " & LogicalDisc.Size & chr(9) & ".:. FreeSpace: " & LogicalDisc.FreeSpace
+		End If
+	Else
+		If LogicalDisc.DeviceID = "C:" Then
+			Wscript.Echo "DeviceId: " & LogicalDisc.DeviceID   & chr(9) & ".:. MediaType: " & LogicalDisc.MediaType & chr(9) & ".:. Size: " & Round(((LogicalDisc.Size/1024)/1024)/1024 ,2) & chr(9) & ".:. FreeSpace: " & Round(((LogicalDisc.FreeSpace/1024)/1024)/1024 ,2)
+		End If
+	End If
+ 
+  Next 
+
+
+Wscript.Echo "'***************************************************'"
+
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+Wscript.Echo "'****************Services Status *********************'"
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%BITS%'")  
+
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+	
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "BITS Service Not Installed" 
+End If 
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%SQL%'")  
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+	
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "SQL Service Not Installed" 
+End If 
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%MSExchange%'")  
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "Exchange Service Not Installed" 
+End If 
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%SAP%'")  
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "SAP Service Not Installed" 
+End If 
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%McAfee%'")  
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "McAfee Service Not Installed" 
+End If 
+
+Wscript.Echo "'****************************** *********************'"
+ 
+Wscript.Echo ' '
+Wscript.Echo ' '
+
+Wscript.Echo "'****************Cluster Status : *********************'"
+
+
+Set colRunningServices = objWMIService.ExecQuery("Select * from Win32_Service Where name like '%clussvc%'")  
+nItems = colRunningServices.Count  
+
+' If the collection count is greater than zero the service will exist. 
+
+If nItems > 0  Then 
+
+For Each objItem in colRunningServices 
+
+	If objItem.State = "Stopped" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Stopped" 
+	ElseIf objItem.State = "Started" Or objItem.State = "Running" Then 
+		Wscript.Echo objItem.DisplayName & " Installed/Running" 
+	End If 
+Next 
+
+Else 
+Wscript.Echo "Cluster Service Not Installed" 
+End If 
+
+'If(Get-Service | ? { $_.name -like "*clussvc*" -and $_.Status -eq "Running"})
+'	{
+'	Write-Output 'Checking cluster nodes:'
+ '    $node = Get-ClusterNode | select name,state,nodeweight | ft -auto
+'	 echo $node
+'	#Write-Output "Checking cluster Resource:"
+'	#$resources = Get-ClusterResource | ft -auto
+'    #echo $resources
+'    }
+'else
+'{
+'" "
+'Write-Host "No Cluster Service"
+'}
+
+
+
+Wscript.Echo "'****************************** *********************'"
+ 
+Wscript.Echo ' '
+Wscript.Echo ' '
